@@ -1,0 +1,41 @@
+{
+  "name": "generator-jhipster-fortune",
+  "version": "0.0.0",
+  "description": "Sample JHipster module, generates a \"fortune cookie\" page in your JHipster application",
+  "homepage": "https://github.com/jdubois/generator-jhipster-fortune",
+  "author": {
+    "name": "Julien Dubois",
+    "email": "julien.dubois@gmail.com",
+    "url": "http://www.julien-dubois.com/"
+  },
+  "files": [
+    "generators"
+  ],
+  "main": "generators/index.js",
+  "keywords": [
+    "yeoman-generator",
+    "jhipster-module"
+  ],
+  "dependencies": {
+    "yeoman-generator": "0.21.1",
+    "chalk": "1.0.0",
+    "yosay": "1.0.2",
+    "generator-jhipster": "2.24.0"
+  },
+  "devDependencies": {
+    "yeoman-assert": "2.0.0",
+    "gulp": "3.6.0",
+    "gulp-eslint": "1.0.0",
+    "gulp-exclude-gitignore": "1.0.0",
+    "gulp-istanbul": "0.9.0",
+    "gulp-mocha": "2.0.0",
+    "gulp-plumber": "1.0.0",
+    "gulp-nsp": "2.1.0"
+  },
+  "repository": "jdubois/generator-jhipster-fortune",
+  "scripts": {
+    "prepublish": "gulp prepublish",
+    "test": "gulp"
+  },
+  "license": "Apache-2.0"
+}
