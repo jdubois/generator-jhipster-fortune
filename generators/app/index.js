@@ -69,7 +69,9 @@ module.exports = yeoman.generators.Base.extend({
     jhipsterFunc.addJavaScriptToIndex('app/fortune/fortune.js');
     this.template('src/main/webapp/scripts/components/fortune/_fortune.service.js', webappDir + 'scripts/components/fortune/fortune.service.js');
     jhipsterFunc.addJavaScriptToIndex('components/fortune/fortune.service.js');
-    jhipsterFunc.addRouterToMenu('fortune', true);
+    jhipsterFunc.addElementToMenu('fortune', 'sunglasses', true);
+    jhipsterFunc.addElementTranslationKey('fortune', 'Fortune', 'en');
+    jhipsterFunc.addElementTranslationKey('fortune', 'Fortune', 'fr');
 
     jhipsterFunc.copyI18nFilesByName(this, webappDir, 'fortune.json', 'en');
     jhipsterFunc.copyI18nFilesByName(this, webappDir, 'fortune.json', 'fr');

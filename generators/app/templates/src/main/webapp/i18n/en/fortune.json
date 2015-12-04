@@ -1,5 +1,4 @@
 {
-    "global.menu.entities.fortune": "Fortune",
     "fortune": {
         "title": "Today's fortune",
         "refresh": "Refresh"
