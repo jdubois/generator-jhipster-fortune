@@ -1,24 +1,25 @@
 # generator-jhipster-fortune [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
 > Sample JHipster module, generates a &#34;fortune cookie&#34; page in your JHipster application
 
+## Usage
+
+This is a [JHipster](http://jhipster.github.io/) module, that is meant to be use in a JHipster application.
+
+The "Fortune cookie" is an example, used to demonstrate how to create modules with JHipster.
+
 ## Installation
 
-First, install [Yeoman](http://yeoman.io) and generator-jhipster-fortune using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
+As this is a [JHipster](http://jhipster.github.io/) module, we expect you have JHipster and its related tools already installed.
 
 ```bash
-npm install -g yo
 npm install -g generator-jhipster-fortune
 ```
 
-Then generate your new project:
+Then run the module on a JHipster generated application:
 
 ```bash
 yo jhipster-fortune
 ```
-
-## Getting To Know Yeoman
-
-Yeoman has a heart of gold. He&#39;s a person with feelings and opinions, but he&#39;s very easy to work with. If you think he&#39;s too opinionated, he can be easily convinced. Feel free to [learn more about him](http://yeoman.io/).
 
 ## License
 
