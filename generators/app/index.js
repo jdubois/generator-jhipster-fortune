@@ -1,9 +1,7 @@
 'use strict';
-var util = require('util');
 var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
 var yosay = require('yosay');
-var jhipster = require('generator-jhipster');
 
 // Stores JHipster variables
 var jhipsterVar = {moduleName: 'fortune'};
@@ -13,26 +11,26 @@ var jhipsterFunc = {};
 
 module.exports = yeoman.generators.Base.extend({
 
-  templates: function() {
+  templates: function () {
     this.composeWith('jhipster:modules', { options: {
-        jhipsterVar: jhipsterVar, jhipsterFunc: jhipsterFunc }});
+      jhipsterVar: jhipsterVar, jhipsterFunc: jhipsterFunc }});
   },
 
   prompting: function () {
     var done = this.async();
 
     // Have Yeoman greet the user.
-    this.log( yosay(
+    this.log(yosay(
       'Welcome to the ' + chalk.red('JHipster Fortune') + ' generator!'
     ));
 
-    if (jhipsterVar.databaseType != 'sql') {
-        this.log(chalk.red('Error!') + ' The JHipster Fortune module only works with SQL databases');
-        process.exit(1);
+    if (jhipsterVar.databaseType !== 'sql') {
+      this.log(chalk.red('Error!') + ' The JHipster Fortune module only works with SQL databases');
+      process.exit(1);
     }
-    if (jhipsterVar.enableTranslation != true) {
-        this.log(chalk.red('Error!') + ' The JHipster Fortune module only works when translation (i18n) is enabled');
-        process.exit(1);
+    if (jhipsterVar.enableTranslation !== true) {
+      this.log(chalk.red('Error!') + ' The JHipster Fortune module only works when translation (i18n) is enabled');
+      process.exit(1);
     }
 
     var prompts = [{
