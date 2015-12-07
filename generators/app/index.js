@@ -26,6 +26,15 @@ module.exports = yeoman.generators.Base.extend({
       'Welcome to the ' + chalk.red('JHipster Fortune') + ' generator!'
     ));
 
+    if (jhipsterVar.databaseType != 'sql') {
+        this.log(chalk.red('Error!') + ' The JHipster Fortune module only works with SQL databases');
+        process.exit(1);
+    }
+    if (jhipsterVar.enableTranslation != true) {
+        this.log(chalk.red('Error!') + ' The JHipster Fortune module only works when translation (i18n) is enabled');
+        process.exit(1);
+    }
+
     var prompts = [{
       type: 'input',
       name: 'userFortune',
