@@ -1,19 +1,24 @@
 'use strict';
 var path = require('path');
 var assert = require('yeoman-assert');
+var fs = require('fs-extra');
 var helpers = require('yeoman-generator').test;
 
-describe('generator-jhipster-fortune:app', function () {
+// TODO: this test does not run
+describe('Files are created', function () {
+
   before(function (done) {
     helpers.run(path.join(__dirname, '../generators/app'))
-      .withOptions({someOption: true})
-      .withPrompts({someAnswer: true})
+      .inTmpDir(function (dir) {
+        fs.copySync(path.join(__dirname, '../test/.yo-rc.json'), dir);
+      })
+      .withPrompts({userFortune: 'my fortune'})
       .on('end', done);
   });
 
   it('creates files', function () {
     assert.file([
-      'dummyfile.txt'
+      'src/main/webapp/scripts/app/fortune/fortune.js'
     ]);
   });
 });
