@@ -1,6 +1,6 @@
 {
   "name": "generator-jhipster-fortune",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Sample JHipster module, generates a \"fortune cookie\" page in your JHipster application",
   "homepage": "https://github.com/jdubois/generator-jhipster-fortune",
   "author": {
@@ -20,7 +20,7 @@
     "yeoman-generator": "0.21.1",
     "chalk": "1.0.0",
     "yosay": "1.0.2",
-    "generator-jhipster": "2.25.0"
+    "generator-jhipster": "2.26.2"
   },
   "devDependencies": {
     "yeoman-assert": "2.0.0",
