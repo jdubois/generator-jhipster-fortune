@@ -1,24 +1,30 @@
-'use strict';
-var path = require('path');
-var assert = require('yeoman-assert');
-var fs = require('fs-extra');
-var helpers = require('yeoman-generator').test;
+/* global describe, beforeEach, it*/
 
-// TODO: this test does not run
-describe('Files are created', function () {
+const path = require('path');
+const fse = require('fs-extra');
+const assert = require('yeoman-assert');
+const helpers = require('yeoman-test');
 
-  before(function (done) {
-    helpers.run(path.join(__dirname, '../generators/app'))
-      .inTmpDir(function (dir) {
-        fs.copySync(path.join(__dirname, '../test/.yo-rc.json'), dir);
-      })
-      .withPrompts({userFortune: 'my fortune'})
-      .on('end', done);
-  });
+const deps = [
+    [helpers.createDummyGenerator(), 'jhipster:modules']
+];
 
-  it('creates files', function () {
-    assert.file([
-      'src/main/webapp/scripts/app/fortune/fortune.js'
-    ]);
-  });
+describe('JHipster generator fortune', () => {
+    describe('simple test', () => {
+        beforeEach((done) => {
+            helpers
+                .run(path.join(__dirname, '../generators/app'))
+                .inTmpDir((dir) => {
+                    fse.copySync(path.join(__dirname, '../test/templates/default'), dir);
+                })
+                .withOptions({
+                    testmode: true
+                })
+                .withPrompts({
+                    userFortune: 'simple fortune cookie'
+                })
+                .withGenerators(deps)
+                .on('end', done);
+        });
+    });
 });

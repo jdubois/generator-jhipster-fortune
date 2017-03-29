@@ -1,10 +1,18 @@
-'use strict';
+(function() {
+    'use strict';
 
-angular.module('<%=angularAppName%>')
-  .controller('FortuneController', function ($scope, Fortune) {
-    $scope.fortune = Fortune.get();
+    angular
+        .module('<%=angularAppName%>')
+        .controller('FortuneController', FortuneController);
 
-    $scope.refresh = function () {
-      $scope.fortune = Fortune.get();
-    };
-  });
+    FortuneController.$inject = ['$scope', 'Fortune'];
+
+    function FortuneController ($scope, Fortune) {
+        var vm = this;
+        vm.fortune = Fortune.get();
+
+        vm.refresh = function () {
+          vm.fortune = Fortune.get();
+        };
+    }
+})();

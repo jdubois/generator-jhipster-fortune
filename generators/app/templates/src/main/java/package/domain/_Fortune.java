@@ -4,15 +4,11 @@ import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.*;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
 /**
  * A fortune cookie.
  */
 @Entity
 @Table(name = "fortune")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Fortune  implements Serializable {
 
     @Id

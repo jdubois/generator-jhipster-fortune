@@ -1,7 +1,6 @@
 package <%=packageName%>.web.rest;
 
 import java.util.*;
-import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,8 +21,11 @@ public class FortuneResource {
 
     private final Logger log = LoggerFactory.getLogger(FortuneResource.class);
 
-    @Inject
     private FortuneRepository fortuneRepository;
+
+    public FortuneResource(FortuneRepository fortuneRepository) {
+        this.fortuneRepository = fortuneRepository;
+    }
 
     /**
      * GET  /fortune -> get the a random fortune cookie.

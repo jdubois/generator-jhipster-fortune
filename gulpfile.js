@@ -1,47 +1,95 @@
-'use strict';
-var path = require('path');
-var gulp = require('gulp');
-var eslint = require('gulp-eslint');
-var excludeGitignore = require('gulp-exclude-gitignore');
-var mocha = require('gulp-mocha');
-var istanbul = require('gulp-istanbul');
-var nsp = require('gulp-nsp');
-var plumber = require('gulp-plumber');
+const gulp = require('gulp');
+const bumper = require('gulp-bump');
+const eslint = require('gulp-eslint');
+const git = require('gulp-git');
+const shell = require('gulp-shell');
+const fs = require('fs');
+const sequence = require('gulp-sequence');
+const path = require('path');
+const mocha = require('gulp-mocha');
+const istanbul = require('gulp-istanbul');
+const nsp = require('gulp-nsp');
+const plumber = require('gulp-plumber');
 
-gulp.task('static', function () {
-  return gulp.src('**/*.js')
-    .pipe(excludeGitignore())
+gulp.task('eslint', () => gulp.src(['gulpfile.js', 'generators/app/index.js', 'test/*.js'])
+    // .pipe(plumber({errorHandler: handleErrors}))
     .pipe(eslint())
     .pipe(eslint.format())
-    .pipe(eslint.failAfterError());
+    .pipe(eslint.failOnError())
+);
+
+gulp.task('nsp', (cb) => {
+    nsp({ package: path.resolve('package.json') }, cb);
 });
 
-gulp.task('nsp', function (cb) {
-  nsp({package: path.resolve('package.json')}, cb);
-});
-
-gulp.task('pre-test', function () {
-  return gulp.src('generators/**/*.js')
+gulp.task('pre-test', () => gulp.src('generators/app/index.js')
     .pipe(istanbul({
-      includeUntested: true
+        includeUntested: true
     }))
-    .pipe(istanbul.hookRequire());
+    .pipe(istanbul.hookRequire())
+);
+
+gulp.task('test', ['pre-test'], (cb) => {
+    let mochaErr;
+
+    gulp.src('test/*.js')
+        .pipe(plumber())
+        .pipe(mocha({ reporter: 'spec' }))
+        .on('error', (err) => {
+            mochaErr = err;
+        })
+        .pipe(istanbul.writeReports())
+        .on('end', () => {
+            cb(mochaErr);
+        });
 });
 
-gulp.task('test', ['pre-test'], function (cb) {
-  var mochaErr;
+gulp.task('bump-patch', bump('patch'));
+gulp.task('bump-minor', bump('minor'));
+gulp.task('bump-major', bump('major'));
 
-  gulp.src('test/**/*.js')
-    .pipe(plumber())
-    .pipe(mocha({reporter: 'spec'}))
-    .on('error', function (err) {
-      mochaErr = err;
-    })
-    .pipe(istanbul.writeReports())
-    .on('end', function () {
-      cb(mochaErr);
+gulp.task('git-commit', () => {
+    const v = `update to version ${version()}`;
+    gulp.src(['./generators/**/*', './README.md', './package.json', './gulpfile.js', './.travis.yml', './travis/**/*'])
+        .pipe(git.add())
+        .pipe(git.commit(v));
+});
+
+gulp.task('git-push', (cb) => {
+    const v = version();
+    git.push('origin', 'master', (err) => {
+        if (err) return cb(err);
+        git.tag(v, v, (err) => {
+            if (err) return cb(err);
+            git.push('origin', 'master', {
+                args: '--tags'
+            }, cb);
+            return true;
+        });
+        return true;
     });
 });
 
+gulp.task('npm', shell.task([
+    'npm publish'
+]));
+
+function bump(level) {
+    return function () {
+        return gulp.src(['./package.json'])
+            .pipe(bumper({
+                type: level
+            }))
+            .pipe(gulp.dest('./'));
+    };
+}
+
+function version() {
+    return JSON.parse(fs.readFileSync('package.json', 'utf8')).version;
+}
+
 gulp.task('prepublish', ['nsp']);
 gulp.task('default', ['static', 'test']);
+gulp.task('deploy-patch', sequence('test', 'bump-patch', 'git-commit', 'git-push', 'npm'));
+gulp.task('deploy-minor', sequence('test', 'bump-minor', 'git-commit', 'git-push', 'npm'));
+gulp.task('deploy-major', sequence('test', 'bump-major', 'git-commit', 'git-push', 'npm'));
